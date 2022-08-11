@@ -1,33 +1,30 @@
-import { StyleSheet, Text, View } from "react-native";
-import styled from "styled-components/native";
-
-const Post = styled.View`
-  padding: 15px;
-  background-color: red;
-  height: 100px;
-  width: 100px;
-  border-radius: 30px;
-`;
+import React from "react";
+import { View } from "react-native";
+import { StatusBar } from "react-native-web";
+import Post from "./components/Post";
+import axios from "axios";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.textText}>Мое первое приложение на ангдроид!</Text>
+  // const [items, setItems] = React.useState;
 
-      <Post />
+  React.useEffect(() => {
+    axios
+      .get("https://62f4f9f7ac59075124c881d8.mockapi.io/articles")
+      .then(({ data }) => {
+        setItems(data).catch((error) => {
+          console.log(error);
+          alert("Artical receipt error");
+        });
+      });
+  });
+  return (
+    <View>
+      <Post
+        title="test"
+        createdAd="11.08.2022"
+        imageUrl="https://mobimg.b-cdn.net/v3/fetch/b4/b4998cef88539ca8075898078e52ece0.jpeg"
+      />
+      <StatusBar theme="auto" />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  textText: {
-    color: "red",
-    fontSize: 44,
-  },
-});
