@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import axios from "axios";
-import { StatusBar } from "expo-status-bar"; //Don't work
 
 import { Post } from "../components/Post";
 
@@ -87,8 +86,6 @@ export function Home() {
           imageUrl={obj.imageUrl}
         />
       ))} */}
-
-      <StatusBar theme="auto" />
     </View>
   );
 }
