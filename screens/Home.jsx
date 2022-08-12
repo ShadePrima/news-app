@@ -12,7 +12,7 @@ import axios from "axios";
 
 import { Post } from "../components/Post";
 
-export function Home() {
+export function Home({ navigation }) {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   console.log(items);
@@ -67,7 +67,10 @@ export function Home() {
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => {
-              alert("Touched");
+              navigation.navigate("FullPost", {
+                id: item.id,
+                title: item.title,
+              });
             }}
           >
             <Post

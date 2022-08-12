@@ -8,7 +8,7 @@ const PostImage = styled.Image`
 `;
 
 const PostTitle = styled.Text`
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 700;
 `;
 
@@ -32,6 +32,13 @@ const PostData = styled.Text`
   margin-top: 12px;
 `;
 
+const truncateTitle = (str) => {
+  if (str.length >= 50) {
+    return str.substring(0, 50) + "...";
+  }
+  return str;
+};
+
 export const Post = ({ title, imageUrl, createdAd }) => {
   return (
     <PostWiew>
@@ -41,8 +48,8 @@ export const Post = ({ title, imageUrl, createdAd }) => {
         }}
       />
       <PostDetails>
-        <PostTitle>{title}</PostTitle>
-        <PostData>{createdAd}</PostData>
+        <PostTitle>{truncateTitle(title)}</PostTitle>
+        <PostData>{new Date(createdAd).toLocaleDateString()}</PostData>
       </PostDetails>
     </PostWiew>
   );
