@@ -9,7 +9,7 @@ const PostImage = styled.Image`
 
 const PostTitle = styled.Text`
   font-size: 20px;
-  font-weight: 700px;
+  font-weight: 700;
 `;
 
 const PostWiew = styled.View`
@@ -32,7 +32,7 @@ const PostData = styled.Text`
   margin-top: 12px;
 `;
 
-const Post = ({ title, imageUrl, createdAd }) => {
+export const Post = ({ title, imageUrl, createdAd }) => {
   return (
     <PostWiew>
       <PostImage
@@ -47,5 +47,3 @@ const Post = ({ title, imageUrl, createdAd }) => {
     </PostWiew>
   );
 };
-
-export default Post;

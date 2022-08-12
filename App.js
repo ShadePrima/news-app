@@ -1,29 +1,93 @@
 import React from "react";
-import { View } from "react-native";
-import { StatusBar } from "react-native-web";
-import Post from "./components/Post";
+import {
+  Alert,
+  View,
+  ActivityIndicator,
+  Text,
+  RefreshControl,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import axios from "axios";
+import { StatusBar } from "expo-status-bar"; //Don't work
+
+import { Post } from "./components/Post";
 
 export default function App() {
-  // const [items, setItems] = React.useState;
+  const [items, setItems] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+  console.log(items);
 
-  React.useEffect(() => {
+  const fetchPosts = () => {
+    setIsLoading(true);
     axios
       .get("https://62f4f9f7ac59075124c881d8.mockapi.io/articles")
       .then(({ data }) => {
-        setItems(data).catch((error) => {
-          console.log(error);
-          alert("Artical receipt error");
-        });
+        setItems(data);
+      })
+      .catch((error) => {
+        console.log(error);
+        Alert.alert("Artical receipr error");
+        alert("Artical receipt error");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  });
+  };
+
+  React.useEffect(fetchPosts, []);
+
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="large" />
+        <Text
+          style={{
+            marginTop: 15,
+          }}
+        >
+          Loading ...
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <View>
-      <Post
-        title="test"
-        createdAd="11.08.2022"
-        imageUrl="https://mobimg.b-cdn.net/v3/fetch/b4/b4998cef88539ca8075898078e52ece0.jpeg"
+      <FlatList
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={fetchPosts} />
+        }
+        data={items}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => {
+              alert("Touched");
+            }}
+          >
+            <Post
+              title={item.title}
+              imageUrl={item.imageUrl}
+              createdAd={item.createdAt}
+            />
+          </TouchableOpacity>
+        )}
       />
+      {/* {[...items, ...items].map((obj) => (
+        <Post
+          key={obj.id}
+          title={obj.title}
+          createdAd={obj.createdAt}
+          imageUrl={obj.imageUrl}
+        />
+      ))} */}
+
       <StatusBar theme="auto" />
     </View>
   );
